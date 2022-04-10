@@ -52,10 +52,13 @@ public class MineCalculationDTO {
     private BigDecimal markedTape = BigDecimal.ZERO;
 
     private BigDecimal markedTapeInMtr = BigDecimal.ZERO;
+    private BigDecimal m_markedTapeInMtr = BigDecimal.ZERO;
+    private BigDecimal m_markedTapeInReel = BigDecimal.ZERO;
 
     private BigDecimal tapingPin = BigDecimal.ZERO;
 
     private BigDecimal saip = BigDecimal.ZERO;
+    private BigDecimal m_saip = BigDecimal.ZERO;
 
 
     private BigDecimal unMarkedTape = BigDecimal.ZERO;
@@ -79,12 +82,72 @@ public class MineCalculationDTO {
     private BigDecimal tran_antiPeer = BigDecimal.ZERO;
     private BigDecimal tran_antiTank = BigDecimal.ZERO;
     private BigDecimal tran_fragMine = BigDecimal.ZERO;
+    private BigDecimal tran_alsOnMines= BigDecimal.ZERO;
+
     private BigDecimal tran_totalAls = BigDecimal.ZERO;
     private BigDecimal tran_markingStores = BigDecimal.ZERO;
     private BigDecimal tran_settingOutStores = BigDecimal.ZERO;
     private BigDecimal tran_navigationStores = BigDecimal.ZERO;
     private BigDecimal tran_totalNoOfMLP = BigDecimal.ZERO;
     private BigDecimal tran_totalNoOfMLP1 = BigDecimal.ZERO;
+    private BigDecimal ssmToTp1 = BigDecimal.ZERO;
+    private BigDecimal tp1ToTp2 = BigDecimal.ZERO;
+    private BigDecimal tp2ToTp3 = BigDecimal.ZERO;
+    private BigDecimal tp3ToTp4 = BigDecimal.ZERO;
+    private BigDecimal tp4ToESM = BigDecimal.ZERO;
+    private BigDecimal antiPerD = BigDecimal.ZERO;
+    private BigDecimal antiTankD = BigDecimal.ZERO;
+
+    private BigDecimal nmm_ssmToTp1 = BigDecimal.ZERO;
+    private BigDecimal nmm_tp1ToTp2 = BigDecimal.ZERO;
+    private BigDecimal nmm_tp2ToTp3 = BigDecimal.ZERO;
+    private BigDecimal nmm_tp3ToTp4 = BigDecimal.ZERO;
+    private BigDecimal nmm_tp4ToESM = BigDecimal.ZERO;
+
+    private BigDecimal m_ssmToTp1 = BigDecimal.ZERO;
+    private BigDecimal m_tp1ToTp2 = BigDecimal.ZERO;
+    private BigDecimal m_tp2ToTp3 = BigDecimal.ZERO;
+    private BigDecimal m_tp3ToTp4 = BigDecimal.ZERO;
+    private BigDecimal m_tp4ToESM = BigDecimal.ZERO;
+
+    private BigDecimal anti_Tank_mk_ssmToTp1 = BigDecimal.ZERO;
+    private BigDecimal anti_Tank_mk_tp1ToTp2 = BigDecimal.ZERO;
+    private BigDecimal anti_Tank_mk_tp2ToTp3 = BigDecimal.ZERO;
+    private BigDecimal anti_Tank_mk_tp3ToTp4 = BigDecimal.ZERO;
+    private BigDecimal anti_Tank_mk_tp4ToESM = BigDecimal.ZERO;
+    private BigDecimal noOfTP = BigDecimal.ZERO;
+
+    public BigDecimal getM_markedTapeInReel() {
+        return m_markedTapeInReel;
+    }
+
+    public void setM_markedTapeInReel(BigDecimal m_markedTapeInReel) {
+        this.m_markedTapeInReel = m_markedTapeInReel;
+    }
+
+    public BigDecimal getM_markedTapeInMtr() {
+        return m_markedTapeInMtr;
+    }
+
+    public void setM_markedTapeInMtr(BigDecimal m_markedTapeInMtr) {
+        this.m_markedTapeInMtr = m_markedTapeInMtr;
+    }
+
+    public BigDecimal getM_saip() {
+        return m_saip;
+    }
+
+    public void setM_saip(BigDecimal m_saip) {
+        this.m_saip = m_saip;
+    }
+
+    public BigDecimal getNoOfTP() {
+        return noOfTP;
+    }
+
+    public void setNoOfTP(BigDecimal noOfTP) {
+        this.noOfTP = noOfTP;
+    }
 
     public BigDecimal getTran_totalNoOfMLP1() {
         return tran_totalNoOfMLP1;
@@ -100,6 +163,126 @@ public class MineCalculationDTO {
 
     public void setTran_settingOutStores(BigDecimal tran_settingOutStores) {
         this.tran_settingOutStores = tran_settingOutStores;
+    }
+
+    public BigDecimal getNmm_ssmToTp1() {
+        return nmm_ssmToTp1;
+    }
+
+    public void setNmm_ssmToTp1(BigDecimal nmm_ssmToTp1) {
+        this.nmm_ssmToTp1 = nmm_ssmToTp1;
+    }
+
+    public BigDecimal getNmm_tp1ToTp2() {
+        return nmm_tp1ToTp2;
+    }
+
+    public void setNmm_tp1ToTp2(BigDecimal nmm_tp1ToTp2) {
+        this.nmm_tp1ToTp2 = nmm_tp1ToTp2;
+    }
+
+    public BigDecimal getNmm_tp2ToTp3() {
+        return nmm_tp2ToTp3;
+    }
+
+    public void setNmm_tp2ToTp3(BigDecimal nmm_tp2ToTp3) {
+        this.nmm_tp2ToTp3 = nmm_tp2ToTp3;
+    }
+
+    public BigDecimal getNmm_tp3ToTp4() {
+        return nmm_tp3ToTp4;
+    }
+
+    public void setNmm_tp3ToTp4(BigDecimal nmm_tp3ToTp4) {
+        this.nmm_tp3ToTp4 = nmm_tp3ToTp4;
+    }
+
+    public BigDecimal getNmm_tp4ToESM() {
+        return nmm_tp4ToESM;
+    }
+
+    public void setNmm_tp4ToESM(BigDecimal nmm_tp4ToESM) {
+        this.nmm_tp4ToESM = nmm_tp4ToESM;
+    }
+
+    public BigDecimal getM_ssmToTp1() {
+        return m_ssmToTp1;
+    }
+
+    public void setM_ssmToTp1(BigDecimal m_ssmToTp1) {
+        this.m_ssmToTp1 = m_ssmToTp1;
+    }
+
+    public BigDecimal getM_tp1ToTp2() {
+        return m_tp1ToTp2;
+    }
+
+    public void setM_tp1ToTp2(BigDecimal m_tp1ToTp2) {
+        this.m_tp1ToTp2 = m_tp1ToTp2;
+    }
+
+    public BigDecimal getM_tp2ToTp3() {
+        return m_tp2ToTp3;
+    }
+
+    public void setM_tp2ToTp3(BigDecimal m_tp2ToTp3) {
+        this.m_tp2ToTp3 = m_tp2ToTp3;
+    }
+
+    public BigDecimal getM_tp3ToTp4() {
+        return m_tp3ToTp4;
+    }
+
+    public void setM_tp3ToTp4(BigDecimal m_tp3ToTp4) {
+        this.m_tp3ToTp4 = m_tp3ToTp4;
+    }
+
+    public BigDecimal getM_tp4ToESM() {
+        return m_tp4ToESM;
+    }
+
+    public void setM_tp4ToESM(BigDecimal m_tp4ToESM) {
+        this.m_tp4ToESM = m_tp4ToESM;
+    }
+
+    public BigDecimal getAnti_Tank_mk_ssmToTp1() {
+        return anti_Tank_mk_ssmToTp1;
+    }
+
+    public void setAnti_Tank_mk_ssmToTp1(BigDecimal anti_Tank_mk_ssmToTp1) {
+        this.anti_Tank_mk_ssmToTp1 = anti_Tank_mk_ssmToTp1;
+    }
+
+    public BigDecimal getAnti_Tank_mk_tp1ToTp2() {
+        return anti_Tank_mk_tp1ToTp2;
+    }
+
+    public void setAnti_Tank_mk_tp1ToTp2(BigDecimal anti_Tank_mk_tp1ToTp2) {
+        this.anti_Tank_mk_tp1ToTp2 = anti_Tank_mk_tp1ToTp2;
+    }
+
+    public BigDecimal getAnti_Tank_mk_tp2ToTp3() {
+        return anti_Tank_mk_tp2ToTp3;
+    }
+
+    public void setAnti_Tank_mk_tp2ToTp3(BigDecimal anti_Tank_mk_tp2ToTp3) {
+        this.anti_Tank_mk_tp2ToTp3 = anti_Tank_mk_tp2ToTp3;
+    }
+
+    public BigDecimal getAnti_Tank_mk_tp3ToTp4() {
+        return anti_Tank_mk_tp3ToTp4;
+    }
+
+    public void setAnti_Tank_mk_tp3ToTp4(BigDecimal anti_Tank_mk_tp3ToTp4) {
+        this.anti_Tank_mk_tp3ToTp4 = anti_Tank_mk_tp3ToTp4;
+    }
+
+    public BigDecimal getAnti_Tank_mk_tp4ToESM() {
+        return anti_Tank_mk_tp4ToESM;
+    }
+
+    public void setAnti_Tank_mk_tp4ToESM(BigDecimal anti_Tank_mk_tp4ToESM) {
+        this.anti_Tank_mk_tp4ToESM = anti_Tank_mk_tp4ToESM;
     }
 
     public BigDecimal getTran_navigationStores() {
@@ -134,6 +317,62 @@ public class MineCalculationDTO {
         this.totalUnMarkTapeInMtrs = totalUnMarkTapeInMtrs;
     }
 
+    public BigDecimal getSsmToTp1() {
+        return ssmToTp1;
+    }
+
+    public void setSsmToTp1(BigDecimal ssmToTp1) {
+        this.ssmToTp1 = ssmToTp1;
+    }
+
+    public BigDecimal getTp1ToTp2() {
+        return tp1ToTp2;
+    }
+
+    public void setTp1ToTp2(BigDecimal tp1ToTp2) {
+        this.tp1ToTp2 = tp1ToTp2;
+    }
+
+    public BigDecimal getTp2ToTp3() {
+        return tp2ToTp3;
+    }
+
+    public void setTp2ToTp3(BigDecimal tp2ToTp3) {
+        this.tp2ToTp3 = tp2ToTp3;
+    }
+
+    public BigDecimal getTp3ToTp4() {
+        return tp3ToTp4;
+    }
+
+    public void setTp3ToTp4(BigDecimal tp3ToTp4) {
+        this.tp3ToTp4 = tp3ToTp4;
+    }
+
+    public BigDecimal getTp4ToESM() {
+        return tp4ToESM;
+    }
+
+    public void setTp4ToESM(BigDecimal tp4ToESM) {
+        this.tp4ToESM = tp4ToESM;
+    }
+
+    public BigDecimal getAntiPerD() {
+        return antiPerD;
+    }
+
+    public void setAntiPerD(BigDecimal antiPerD) {
+        this.antiPerD = antiPerD;
+    }
+
+    public BigDecimal getAntiTankD() {
+        return antiTankD;
+    }
+
+    public void setAntiTankD(BigDecimal antiTankD) {
+        this.antiTankD = antiTankD;
+    }
+
     public BigDecimal getTotalUnMarkTapeInReels() {
         return totalUnMarkTapeInReels;
     }
@@ -164,6 +403,14 @@ public class MineCalculationDTO {
 
     public void setBindingWireInMtrs(BigDecimal bindingWireInMtrs) {
         this.bindingWireInMtrs = bindingWireInMtrs;
+    }
+
+    public BigDecimal getTran_alsOnMines() {
+        return tran_alsOnMines;
+    }
+
+    public void setTran_alsOnMines(BigDecimal tran_alsOnMines) {
+        this.tran_alsOnMines = tran_alsOnMines;
     }
 
 

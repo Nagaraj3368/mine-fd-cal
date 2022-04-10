@@ -56,6 +56,56 @@ public class MineFdCalculationService {
         int totalMines = antiPeerMine + antiTankMine + fragMine;
         mineCalculationDTO.setTotalMines(totalMines);
 
+        //Mines on Strip calculation
+        //nmm-14
+        BigDecimal nmm_ssmToTp1 = (mineCalculationDTO.getSsmToTp1().subtract(new BigDecimal(6)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setNmm_ssmToTp1(nmm_ssmToTp1);
+
+        BigDecimal nmm_tp1ToTp2 = (mineCalculationDTO.getTp1ToTp2().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setNmm_tp1ToTp2(nmm_tp1ToTp2);
+
+        BigDecimal nmm_tp2ToTp3 = (mineCalculationDTO.getTp2ToTp3().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setNmm_tp2ToTp3(nmm_tp2ToTp3);
+
+        BigDecimal nmm_tp3ToTp4 = (mineCalculationDTO.getTp3ToTp4().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setNmm_tp3ToTp4(nmm_tp3ToTp4);
+
+        BigDecimal nmm_tp4ToESM = (mineCalculationDTO.getTp4ToESM().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setNmm_tp4ToESM(nmm_tp4ToESM);
+
+        //M-16
+        BigDecimal m_ssmToTp1 = (mineCalculationDTO.getSsmToTp1().subtract(new BigDecimal(12)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setM_ssmToTp1(m_ssmToTp1);
+
+        BigDecimal m_tp1ToTp2 = (mineCalculationDTO.getTp1ToTp2().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setM_tp1ToTp2(m_tp1ToTp2);
+
+        BigDecimal m_tp2ToTp3 = (mineCalculationDTO.getTp2ToTp3().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setM_tp2ToTp3(m_tp2ToTp3);
+
+        BigDecimal m_tp3ToTp4 = (mineCalculationDTO.getTp3ToTp4().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setM_tp3ToTp4(m_tp3ToTp4);
+
+        BigDecimal m_tp4ToESM = (mineCalculationDTO.getTp4ToESM().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setM_tp4ToESM(m_tp4ToESM);
+
+
+        //A/tank Mine MK-1
+        BigDecimal anti_Tank_mk_ssmToTp1 = (mineCalculationDTO.getSsmToTp1().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setAnti_Tank_mk_ssmToTp1(anti_Tank_mk_ssmToTp1);
+
+        BigDecimal anti_Tank_mk_tp1ToTp2 = (mineCalculationDTO.getTp1ToTp2().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setAnti_Tank_mk_tp1ToTp2(anti_Tank_mk_tp1ToTp2);
+
+        BigDecimal anti_Tank_mk_tp2ToTp3 = (mineCalculationDTO.getTp2ToTp3().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setAnti_Tank_mk_tp2ToTp3(anti_Tank_mk_tp2ToTp3);
+
+        BigDecimal anti_Tank_mk_tp3ToTp4 = (mineCalculationDTO.getTp3ToTp4().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setAnti_Tank_mk_tp3ToTp4(anti_Tank_mk_tp3ToTp4);
+
+        BigDecimal anti_Tank_mk_tp4ToESM = (mineCalculationDTO.getTp4ToESM().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+        mineCalculationDTO.setAnti_Tank_mk_tp4ToESM(anti_Tank_mk_tp4ToESM);
+
         // Stores calculation
         //liap
         BigDecimal liap1 = mineCalculationDTO.getFrontage().multiply(new BigDecimal(2)).add(mineCalculationDTO.getDept().multiply(new BigDecimal(2))).divide(new BigDecimal(12.5));
@@ -80,17 +130,28 @@ public class MineFdCalculationService {
         mineCalculationDTO.setNylonRopeInMtr(nyloneRope);
 
         //BindingWire
-        BigDecimal bindingWireInMtrs = pms.multiply(new BigDecimal(15)).divide(new BigDecimal(100),2, RoundingMode.UP);
+        BigDecimal bindingWireInMtrs = pms.multiply(new BigDecimal(15)).divide(new BigDecimal(100), 2, RoundingMode.UP);
         mineCalculationDTO.setBindingWireInMtrs(bindingWireInMtrs);
         BigDecimal bindingWire = bindingWireInMtrs.divide(new BigDecimal(20), 2, RoundingMode.UP);
         mineCalculationDTO.setBindingWire(bindingWire);
 
         //Marked Tape
         BigDecimal markedTape1 = mineCalculationDTO.getFrontage().multiply(new BigDecimal(mineCalculationDTO.getNoOfStrips()));
-        BigDecimal markedTape2 = (markedTape1.add(markedTape1.divide(new BigDecimal(10),2, RoundingMode.UP))).setScale(0, RoundingMode.UP);
+        BigDecimal markedTape2 = (markedTape1.add(markedTape1.divide(new BigDecimal(10), 2, RoundingMode.UP))).setScale(0, RoundingMode.UP);
         mineCalculationDTO.setMarkedTapeInMtr(markedTape2);
         BigDecimal markedTape = markedTape2.divide(new BigDecimal(365), 0, RoundingMode.UP);
         mineCalculationDTO.setMarkedTape(markedTape);
+
+        BigDecimal m_markedTape = (mineCalculationDTO.getNoOfTP().add(new BigDecimal(1))).multiply(mineCalculationDTO.getFrontage());
+        BigDecimal m_markedTapeInMtr = (m_markedTape.add(m_markedTape.divide(new BigDecimal(10), 2, RoundingMode.UP))).setScale(0, RoundingMode.UP);
+        mineCalculationDTO.setM_markedTapeInMtr(m_markedTapeInMtr);
+
+        BigDecimal m_markedTapeInReel = m_markedTapeInMtr.divide(new BigDecimal(365), 0, RoundingMode.UP);
+        mineCalculationDTO.setM_markedTapeInReel(m_markedTapeInReel);
+
+        BigDecimal m_saip = (mineCalculationDTO.getNoOfTP().multiply(new BigDecimal(2))).add(new BigDecimal(2));
+        m_saip = (m_saip.add(m_saip.divide(new BigDecimal(10), 2, RoundingMode.UP))).setScale(0, RoundingMode.UP);
+        mineCalculationDTO.setM_saip(m_saip);
 
         //Taping Pin
         BigDecimal tapingPin = markedTape2.divide(new BigDecimal(20)).setScale(0, RoundingMode.UP);
@@ -103,7 +164,7 @@ public class MineFdCalculationService {
 
         // Navigation stores
         // Un marked tap
-        BigDecimal unMarkedTap = new BigDecimal(mineCalculationDTO.getNoOfStrips().intValue()).multiply(mineCalculationDTO.getFrontage());
+        BigDecimal unMarkedTap = new BigDecimal(mineCalculationDTO.getNoOfStrips().intValue() - 1).multiply(mineCalculationDTO.getFrontage());
         unMarkedTap = (unMarkedTap.add(unMarkedTap.divide(new BigDecimal(10)))).setScale(0, RoundingMode.UP);
         mineCalculationDTO.setUnMarkedTape(unMarkedTap);
 
@@ -117,11 +178,11 @@ public class MineFdCalculationService {
 
         BigDecimal totalUnMarkedTapeInMtr = (returnGuideTapeInMtr.add(unMarkedTap).add(guidTape)).setScale(0, RoundingMode.UP);
         mineCalculationDTO.setTotalUnMarkTapeInMtrs(totalUnMarkedTapeInMtr);
-        BigDecimal totalUnMarkedTapeInReels = totalUnMarkedTapeInMtr.divide(new BigDecimal(365),0, RoundingMode.UP);
+        BigDecimal totalUnMarkedTapeInReels = totalUnMarkedTapeInMtr.divide(new BigDecimal(365), 0, RoundingMode.UP);
         mineCalculationDTO.setTotalUnMarkTapeInReels(totalUnMarkedTapeInReels);
 
         //saip1
-        BigDecimal saip11 = totalUnMarkedTapeInMtr.divide(new BigDecimal(50),2, RoundingMode.UP).setScale(0, RoundingMode.UP);
+        BigDecimal saip11 = totalUnMarkedTapeInMtr.divide(new BigDecimal(50), 2, RoundingMode.UP).setScale(0, RoundingMode.UP);
         mineCalculationDTO.setSaip1(saip11);
 
         //night sign board
@@ -133,19 +194,18 @@ public class MineFdCalculationService {
         mineCalculationDTO.setAldStore(aldCal);
 
         // Trip flare
-        BigDecimal tripFlare = mineCalculationDTO.getFrontage().divide(new BigDecimal(20));
-        tripFlare = (tripFlare.add(tripFlare.divide(new BigDecimal(10)))).setScale(0, RoundingMode.UP);
+        BigDecimal tripFlare = mineCalculationDTO.getFrontage().divide(new BigDecimal(20), 2, RoundingMode.UP);
         mineCalculationDTO.setTripFlare(tripFlare);
 
         //unmarked tape
-        BigDecimal unmarkedTape1 = (mineCalculationDTO.getIsl().add(mineCalculationDTO.getVsl())).multiply(mineCalculationDTO.getDept());
-        unmarkedTape1 = (unmarkedTape1.add(unmarkedTape1.divide(new BigDecimal(10))));
+        BigDecimal unmarkedTape1 = (mineCalculationDTO.getIsl().add(mineCalculationDTO.getVsl().multiply(new BigDecimal(2)))).multiply(mineCalculationDTO.getDept());
+        unmarkedTape1 = (unmarkedTape1.add(unmarkedTape1.divide(new BigDecimal(10), 2, RoundingMode.UP)));
         mineCalculationDTO.setUnMarkedTape1InMtr(unmarkedTape1);
-        BigDecimal unmarkedTape = unmarkedTape1.divide(new BigDecimal(365),2, RoundingMode.UP).setScale(0, RoundingMode.UP);
+        BigDecimal unmarkedTape = unmarkedTape1.divide(new BigDecimal(365), 2, RoundingMode.UP).setScale(0, RoundingMode.UP);
         mineCalculationDTO.setUnMarkedTape1(unmarkedTape);
 
         //saip
-        mineCalculationDTO.setSaip2(unmarkedTape1.setScale(0, RoundingMode.UP));
+        mineCalculationDTO.setSaip2(unmarkedTape1);
 
         //saip3
 
@@ -153,24 +213,28 @@ public class MineFdCalculationService {
         mineCalculationDTO.setSaip3(saip3.setScale(0, RoundingMode.UP));
 
         // Transportation
-        mineCalculationDTO.setTran_antiPeer(new BigDecimal(totalMines).divide(new BigDecimal(8000),2, RoundingMode.UP).setScale(0, RoundingMode.UP));
-        mineCalculationDTO.setTran_antiTank(new BigDecimal(totalMines).divide(new BigDecimal(225),2, RoundingMode.UP).setScale(0, RoundingMode.UP));
-        mineCalculationDTO.setTran_fragMine(new BigDecimal(totalMines).divide(new BigDecimal(700),2, RoundingMode.UP).setScale(0, RoundingMode.UP));
+        mineCalculationDTO.setTran_antiPeer(new BigDecimal(mineCalculationDTO.getAntiPersMine()).divide(new BigDecimal(8000), 2, RoundingMode.HALF_UP));
+        mineCalculationDTO.setTran_antiTank(new BigDecimal(mineCalculationDTO.getAntiTankMine()).divide(new BigDecimal(225), 2, RoundingMode.HALF_UP));
+        mineCalculationDTO.setTran_fragMine(new BigDecimal(mineCalculationDTO.getFragMine()).divide(new BigDecimal(700), 2, RoundingMode.HALF_UP));
+        BigDecimal alsOnMine = mineCalculationDTO.getTran_antiPeer().add(mineCalculationDTO.getTran_antiTank()).add(mineCalculationDTO.getTran_fragMine()).setScale(0, RoundingMode.UP);
+        mineCalculationDTO.setTran_alsOnMines(alsOnMine);
+
 
         //Marking stores
-        BigDecimal markingStore1 = ((mineCalculationDTO.getFrontage().add(mineCalculationDTO.getDept())).multiply(new BigDecimal(2))).divide(new BigDecimal(3300),2, RoundingMode.UP);
+        BigDecimal markingStore1 = ((mineCalculationDTO.getFrontage().add(mineCalculationDTO.getDept())).multiply(new BigDecimal(2))).divide(new BigDecimal(3300), 2, RoundingMode.UP);
         BigDecimal markingStore = markingStore1.setScale(0, RoundingMode.UP);
         mineCalculationDTO.setTran_markingStores(markingStore);
         mineCalculationDTO.setTran_settingOutStores(BigDecimal.ONE);
         mineCalculationDTO.setTran_navigationStores(BigDecimal.ONE);
         BigDecimal totalALS = mineCalculationDTO.getTran_antiPeer().add(mineCalculationDTO.getTran_antiTank()).add(mineCalculationDTO.getTran_fragMine()).add(mineCalculationDTO.getTran_markingStores()).add(mineCalculationDTO.getTran_settingOutStores()).add(mineCalculationDTO.getTran_navigationStores());
-        mineCalculationDTO.setTran_totalAls(totalALS);
+        mineCalculationDTO.setTran_totalAls(totalALS.setScale(0, BigDecimal.ROUND_UP));
 
         BigDecimal totalMlp = new BigDecimal(totalMines).divide(new BigDecimal(700), 2, RoundingMode.UP).setScale(0, RoundingMode.UP);
         mineCalculationDTO.setTran_totalNoOfMLP(totalMlp);
 
         BigDecimal totalMlp1 = new BigDecimal(totalMines).divide(new BigDecimal(500), 2, RoundingMode.UP).setScale(0, RoundingMode.UP);
         mineCalculationDTO.setTran_totalNoOfMLP1(totalMlp1);
+
         return mineCalculationDTO;
     }
 

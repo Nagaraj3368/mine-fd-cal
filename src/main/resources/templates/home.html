@@ -109,6 +109,83 @@ th { background-color: lightblue;}
                     <input type="text" id="isl" name="isl" th:value="${isl}" required>
                 </td>
             </tr>
+
+            <tr>
+                <th>Mines On Strip:</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    <label for="ssmToTp1"> SSM to T.P1 dis:</label>
+                </td>
+                <td>
+                    <input type="text" id="ssmToTp1" name="ssmToTp1" th:value="${ssmToTp1}" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="tp1ToTp2"> T.P1 to T.P2 dis:</label>
+                </td>
+                <td>
+                    <input type="text" id="tp1ToTp2" name="tp1ToTp2" th:value="${tp1ToTp2}" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="tp2ToTp3"> T.P2 to T.P3 dis:</label>
+                </td>
+                <td>
+                    <input type="text" id="tp2ToTp3" name="tp2ToTp3" th:value="${tp2ToTp3}" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="tp3ToTp4"> T.P3 to T.P4 dis:</label>
+                </td>
+                <td>
+                    <input type="text" id="tp3ToTp4" name="tp3ToTp4" th:value="${tp3ToTp4}" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="tp4ToESM"> T.P4 to ESM dis:</label>
+                </td>
+                <td>
+                    <input type="text" id="tp4ToESM" name="tp4ToESM" th:value="${tp4ToESM}" required>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="antiPerD"> A/per D:</label>
+                </td>
+                <td>
+                    <input type="text" id="antiPerD" name="antiPerD" th:value="${antiPerD}" required>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="antiTankD"> A/tank D:</label>
+                </td>
+                <td>
+                    <input type="text" id="antiTankD" name="antiTankD" th:value="${antiTankD}" required>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Setting Out Store:</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    <label for="noOfTP"> No Of TP:</label>
+                </td>
+                <td>
+                    <input type="text" id="noOfTP" name="noOfTP" th:value="${noOfTP}" required>
+                </td>
+            </tr>
+
             <tr>
                 <td></td>
                 <td>
@@ -192,9 +269,125 @@ th { background-color: lightblue;}
             <td><p th:text="${noOfMine}"></p></td>
         </tr>
 
-        <!--             Stores calculation-->
         <tr>
             <td>3</td>
+            <td style="text-align:left"><b>Mines On Strip:</b></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="text-align:left"><b>A/per Mine NMM-14:</b></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> SSM to T.P1</td>
+            <td>Nos</td>
+            <td><p th:text="${nmm_ssmToTp1}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P1 to T.P2</td>
+            <td>Nos</td>
+            <td><p th:text="${nmm_tp1ToTp2}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P2 to T.P3</td>
+            <td>Nos</td>
+            <td><p th:text="${nmm_tp2ToTp3}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P3 to T.P4</td>
+            <td>Nos</td>
+            <td><p th:text="${nmm_tp3ToTp4}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P4 to ESM</td>
+            <td>Nos</td>
+            <td><p th:text="${nmm_tp4ToESM}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="text-align:left"><b>A/per Mine M-16:</b></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> SSM to T.P1</td>
+            <td>Nos</td>
+            <td><p th:text="${m_ssmToTp1}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P1 to T.P2</td>
+            <td>Nos</td>
+            <td><p th:text="${m_tp1ToTp2}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P2 to T.P3</td>
+            <td>Nos</td>
+            <td><p th:text="${m_tp2ToTp3}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P3 to T.P4</td>
+            <td>Nos</td>
+            <td><p th:text="${m_tp3ToTp4}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P4 to ESM</td>
+            <td>Nos</td>
+            <td><p th:text="${m_tp4ToESM}"></p></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td style="text-align:left"><b>A/Tank Mine ND MK-1:</b></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> SSM to T.P1</td>
+            <td>Nos</td>
+            <td><p th:text="${anti_Tank_mk_ssmToTp1}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P1 to T.P2</td>
+            <td>Nos</td>
+            <td><p th:text="${anti_Tank_mk_tp1ToTp2}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P2 to T.P3</td>
+            <td>Nos</td>
+            <td><p th:text="${anti_Tank_mk_tp2ToTp3}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P3 to T.P4</td>
+            <td>Nos</td>
+            <td><p th:text="${anti_Tank_mk_tp3ToTp4}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> T.P4 to ESM</td>
+            <td>Nos</td>
+            <td><p th:text="${anti_Tank_mk_tp4ToESM}"></p></td>
+        </tr>
+
+        <!--             Stores calculation-->
+        <tr>
+            <td>4</td>
             <td style="text-align:left"><b>STORES:</b></td>
             <td></td>
             <td></td>
@@ -260,6 +453,14 @@ th { background-color: lightblue;}
             <td>MTR</br></br>Reels</td>
             <td><p th:text="${markedTapeInMtr}"></p><p th:text="${markedTape}"></p></td>
         </tr>
+
+        <tr>
+            <td></td>
+            <td>M Marked Tape</td>
+            <td>MTR</br></br>Reels</td>
+            <td><p th:text="${m_markedTapeInMtr}"></p><p th:text="${m_markedTapeInReel}"></p></td>
+        </tr>
+
         <tr>
             <td></td>
             <td> Taping Pin</td>
@@ -271,6 +472,13 @@ th { background-color: lightblue;}
             <td> SAIP</td>
             <td>Nos</td>
             <td><p th:text="${saip}"></p></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>M SAIP</td>
+            <td>Nos</td>
+            <td><p th:text="${m_saip}"></p></td>
         </tr>
         <!--        Navigation stores-->
         <tr>
@@ -354,7 +562,7 @@ th { background-color: lightblue;}
         </tr>
 
         <tr>
-            <td>4</td>
+            <td>5</td>
             <td style="text-align:left"><b>Transportation:</b></td>
             <td></td>
             <td></td>
@@ -388,6 +596,13 @@ th { background-color: lightblue;}
 
         <tr>
             <td></td>
+            <td>ALS For Mines</td>
+            <td>Nos</td>
+            <td><p th:text="${tran_alsOnMine}"></p></td>
+        </tr>
+
+        <tr>
+            <td></td>
             <td style="text-align:left"><b>Marking Stores</b></td>
             <td>Nos</td>
             <td><p th:text="${tran_markingStores}"></p></td>
@@ -414,7 +629,7 @@ th { background-color: lightblue;}
         </tr>
 
         <tr>
-            <td>5</td>
+            <td>6</td>
             <td style="text-align:left"><b>Time Plan:</b></td>
             <td></td>
             <td></td>

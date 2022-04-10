@@ -30,6 +30,18 @@ public class MineFDCalculationController {
         mineCalculationDTO.setVsl(new BigDecimal(body.get("vsl")));
         mineCalculationDTO.setIsl(new BigDecimal(body.get("isl")));
 
+        //Mines on Strips cal
+        mineCalculationDTO.setSsmToTp1(new BigDecimal(body.get("ssmToTp1")));
+        mineCalculationDTO.setTp1ToTp2(new BigDecimal(body.get("tp1ToTp2")));
+        mineCalculationDTO.setTp2ToTp3(new BigDecimal(body.get("tp2ToTp3")));
+        mineCalculationDTO.setTp3ToTp4(new BigDecimal(body.get("tp3ToTp4")));
+        mineCalculationDTO.setTp4ToESM(new BigDecimal(body.get("tp4ToESM")));
+        mineCalculationDTO.setAntiPerD(new BigDecimal(body.get("antiPerD")));
+        mineCalculationDTO.setAntiTankD(new BigDecimal(body.get("antiTankD")));
+
+        mineCalculationDTO.setNoOfTP(new BigDecimal(body.get("noOfTP")));
+
+
         MineCalculationDTO calculatedDTO = mineFdCalculationService.calculate(mineCalculationDTO);
         Map<String, Object> map = new HashMap<>(body);
         map.put("calAntiPerStrip", calculatedDTO.getCalAntiPerStrip());
@@ -42,6 +54,26 @@ public class MineFDCalculationController {
         map.put("calFragMine", calculatedDTO.getFragMine());
         map.put("noOfMine", calculatedDTO.getTotalMines());
 
+
+        map.put("nmm_ssmToTp1", calculatedDTO.getNmm_ssmToTp1());
+        map.put("nmm_tp1ToTp2", calculatedDTO.getNmm_tp1ToTp2());
+        map.put("nmm_tp2ToTp3", calculatedDTO.getNmm_tp2ToTp3());
+        map.put("nmm_tp3ToTp4", calculatedDTO.getNmm_tp3ToTp4());
+        map.put("nmm_tp4ToESM", calculatedDTO.getNmm_tp4ToESM());
+
+        map.put("m_ssmToTp1", calculatedDTO.getM_ssmToTp1());
+        map.put("m_tp1ToTp2", calculatedDTO.getM_tp1ToTp2());
+        map.put("m_tp2ToTp3", calculatedDTO.getM_tp2ToTp3());
+        map.put("m_tp3ToTp4", calculatedDTO.getM_tp3ToTp4());
+        map.put("m_tp4ToESM", calculatedDTO.getM_tp4ToESM());
+
+        map.put("anti_Tank_mk_ssmToTp1", calculatedDTO.getAnti_Tank_mk_ssmToTp1());
+        map.put("anti_Tank_mk_tp1ToTp2", calculatedDTO.getAnti_Tank_mk_tp1ToTp2());
+        map.put("anti_Tank_mk_tp2ToTp3", calculatedDTO.getAnti_Tank_mk_tp2ToTp3());
+        map.put("anti_Tank_mk_tp3ToTp4", calculatedDTO.getAnti_Tank_mk_tp3ToTp4());
+        map.put("anti_Tank_mk_tp4ToESM", calculatedDTO.getAnti_Tank_mk_tp4ToESM());
+
+
         map.put("laip", calculatedDTO.getLaip());
         map.put("barbedWireBundle", calculatedDTO.getBarbedWireBundle());
         map.put("pms", calculatedDTO.getPms());
@@ -52,8 +84,11 @@ public class MineFDCalculationController {
 
         map.put("markedTape", calculatedDTO.getMarkedTape());
         map.put("markedTapeInMtr", calculatedDTO.getMarkedTapeInMtr());
+        map.put("m_markedTapeInMtr", calculatedDTO.getM_markedTapeInMtr());
+        map.put("m_markedTapeInReel", calculatedDTO.getM_markedTapeInReel());
         map.put("tapingPin", calculatedDTO.getTapingPin());
         map.put("saip", calculatedDTO.getSaip());
+        map.put("m_saip", calculatedDTO.getM_saip());
 
         map.put("unMarkedTape", calculatedDTO.getUnMarkedTape());
         map.put("guideTape", calculatedDTO.getGuideTape());
@@ -73,6 +108,7 @@ public class MineFDCalculationController {
         map.put("tran_antiPeer", calculatedDTO.getTran_antiPeer());
         map.put("tran_antiTank", calculatedDTO.getTran_antiTank());
         map.put("tran_fragMine", calculatedDTO.getTran_fragMine());
+        map.put("tran_alsOnMine", calculatedDTO.getTran_alsOnMines());
         map.put("tran_markingStores", calculatedDTO.getTran_markingStores());
         map.put("tran_settingOutStores", calculatedDTO.getTran_settingOutStores());
         map.put("tran_navigationStores", calculatedDTO.getTran_navigationStores());
