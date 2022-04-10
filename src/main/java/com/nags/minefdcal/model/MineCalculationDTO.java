@@ -12,9 +12,13 @@ public class MineCalculationDTO {
 
     private BigDecimal antiPerStrip = BigDecimal.ZERO;
 
+    private String antiPerStripStr;
+
     private BigDecimal calAntiPerStrip = BigDecimal.ZERO;
 
     private BigDecimal antiTankStrip = BigDecimal.ZERO;
+
+    private String antiTankStripStr;
 
     private BigDecimal calAntiTankStrip = BigDecimal.ZERO;
 
@@ -116,6 +120,22 @@ public class MineCalculationDTO {
     private BigDecimal anti_Tank_mk_tp3ToTp4 = BigDecimal.ZERO;
     private BigDecimal anti_Tank_mk_tp4ToESM = BigDecimal.ZERO;
     private BigDecimal noOfTP = BigDecimal.ZERO;
+
+    public String getAntiPerStripStr() {
+        return antiPerStripStr;
+    }
+
+    public void setAntiPerStripStr(String antiPerStripStr) {
+        this.antiPerStripStr = antiPerStripStr;
+    }
+
+    public String getAntiTankStripStr() {
+        return antiTankStripStr;
+    }
+
+    public void setAntiTankStripStr(String antiTankStripStr) {
+        this.antiTankStripStr = antiTankStripStr;
+    }
 
     public BigDecimal getM_markedTapeInReel() {
         return m_markedTapeInReel;

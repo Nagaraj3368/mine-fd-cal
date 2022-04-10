@@ -4,11 +4,13 @@ import com.nags.minefdcal.model.MineCalculationDTO;
 import com.nags.minefdcal.service.MineFdCalculationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,22 +26,22 @@ public class MineFDCalculationController {
         MineCalculationDTO mineCalculationDTO = new MineCalculationDTO();
         mineCalculationDTO.setFrontage(new BigDecimal(body.get("frontage")));
         mineCalculationDTO.setDept(new BigDecimal(body.get("dept")));
-        mineCalculationDTO.setAntiPerStrip(new BigDecimal(body.get("antiPerStrip")));
-        mineCalculationDTO.setAntiTankStrip(new BigDecimal(body.get("antiTankStrip")));
+        mineCalculationDTO.setAntiPerStripStr(body.get("antiPerStrip"));
+        mineCalculationDTO.setAntiTankStripStr(body.get("antiTankStrip"));
         mineCalculationDTO.setFragStrip(body.get("fragStrip"));
         mineCalculationDTO.setVsl(new BigDecimal(body.get("vsl")));
         mineCalculationDTO.setIsl(new BigDecimal(body.get("isl")));
 
         //Mines on Strips cal
-        mineCalculationDTO.setSsmToTp1(new BigDecimal(body.get("ssmToTp1")));
-        mineCalculationDTO.setTp1ToTp2(new BigDecimal(body.get("tp1ToTp2")));
-        mineCalculationDTO.setTp2ToTp3(new BigDecimal(body.get("tp2ToTp3")));
-        mineCalculationDTO.setTp3ToTp4(new BigDecimal(body.get("tp3ToTp4")));
-        mineCalculationDTO.setTp4ToESM(new BigDecimal(body.get("tp4ToESM")));
-        mineCalculationDTO.setAntiPerD(new BigDecimal(body.get("antiPerD")));
-        mineCalculationDTO.setAntiTankD(new BigDecimal(body.get("antiTankD")));
+        mineCalculationDTO.setSsmToTp1(new BigDecimal(!body.get("ssmToTp1").equals("") ? body.get("ssmToTp1"): "0"));
+        mineCalculationDTO.setTp1ToTp2(new BigDecimal(!body.get("tp1ToTp2").equals("") ? body.get("tp1ToTp2"): "0"));
+        mineCalculationDTO.setTp2ToTp3(new BigDecimal(!body.get("tp2ToTp3").equals("") ? body.get("tp2ToTp3"): "0"));
+        mineCalculationDTO.setTp3ToTp4(new BigDecimal(!body.get("tp3ToTp4").equals("") ? body.get("tp3ToTp4"): "0"));
+        mineCalculationDTO.setTp4ToESM(new BigDecimal(!body.get("tp4ToESM").equals("") ? body.get("tp4ToESM"): "0"));
+        mineCalculationDTO.setAntiPerD(new BigDecimal(!body.get("antiPerD").equals("") ? body.get("antiPerD"): "0"));
+        mineCalculationDTO.setAntiTankD(new BigDecimal(!body.get("antiTankD").equals("") ? body.get("antiTankD"): "0"));
 
-        mineCalculationDTO.setNoOfTP(new BigDecimal(body.get("noOfTP")));
+        mineCalculationDTO.setNoOfTP(new BigDecimal(!body.get("noOfTP").equals("") ? body.get("noOfTP"): "0"));
 
 
         MineCalculationDTO calculatedDTO = mineFdCalculationService.calculate(mineCalculationDTO);
@@ -122,7 +124,7 @@ public class MineFDCalculationController {
         ModelAndView model = new ModelAndView();
         model.addAllObjects(map);
 
-        model.setViewName("home.html");
+        model.setViewName("minefdcal.html");
         return model;
     }
 }

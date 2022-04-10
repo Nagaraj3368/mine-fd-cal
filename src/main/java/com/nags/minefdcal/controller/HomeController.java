@@ -10,4 +10,9 @@ public class HomeController {
     public String getHomePage() {
         return "home";
     }
+
+    @GetMapping("/minefdcal")
+    public String getCalculationhtmlPage() {
+        return "minefdcal.html";
+    }
 }

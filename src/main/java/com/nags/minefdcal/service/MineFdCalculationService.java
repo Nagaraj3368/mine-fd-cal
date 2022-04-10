@@ -14,18 +14,44 @@ public class MineFdCalculationService {
 
     public MineCalculationDTO calculate(MineCalculationDTO mineCalculationDTO) {
 
+        String antiPerStrip = mineCalculationDTO.getAntiPerStripStr();
+        BigDecimal enteredAntiPerStripValue;
+        if (!StringUtils.isEmpty(antiPerStrip) && antiPerStrip.contains("/")) {
+            BigDecimal dividend = new BigDecimal(antiPerStrip.substring(0, antiPerStrip.indexOf("/")));
+            BigDecimal divisor = new BigDecimal(antiPerStrip.substring(antiPerStrip.indexOf("/") + 1));
+            enteredAntiPerStripValue = dividend.divide(divisor, 4, RoundingMode.HALF_UP);
+        } else {
+            enteredAntiPerStripValue = new BigDecimal(antiPerStrip);
+        }
+        mineCalculationDTO.setAntiPerStrip(enteredAntiPerStripValue);
+
+        String antiTankStripStr = mineCalculationDTO.getAntiTankStripStr();
+        BigDecimal enteredAntiTankStripValue;
+        if (!StringUtils.isEmpty(antiTankStripStr) && antiTankStripStr.contains("/")) {
+            BigDecimal dividend = new BigDecimal(antiTankStripStr.substring(0, antiTankStripStr.indexOf("/")));
+            BigDecimal divisor = new BigDecimal(antiTankStripStr.substring(antiTankStripStr.indexOf("/") + 1));
+            enteredAntiTankStripValue = dividend.divide(divisor, 4, RoundingMode.HALF_UP);
+        } else {
+            enteredAntiTankStripValue = new BigDecimal(antiTankStripStr);
+        }
+
+        mineCalculationDTO.setAntiTankStrip(enteredAntiTankStripValue);
+
         // No of strips
-        mineCalculationDTO.setCalAntiPerStrip(mineCalculationDTO.getAntiPerStrip().divide(MineCalculationConstants.SD_ANTI_PERS_STRIP));
-        mineCalculationDTO.setCalAntiTankStrip(mineCalculationDTO.getAntiTankStrip().divide(MineCalculationConstants.SD_ANTI_TANK_STRIP, 0, RoundingMode.HALF_UP));
+        mineCalculationDTO.setCalAntiPerStrip(mineCalculationDTO.getAntiPerStrip().divide(MineCalculationConstants.SD_ANTI_PERS_STRIP, 2, RoundingMode.HALF_UP).setScale(0, RoundingMode.UP));
+        mineCalculationDTO.setCalAntiTankStrip(mineCalculationDTO.getAntiTankStrip().divide(MineCalculationConstants.SD_ANTI_TANK_STRIP, 2, RoundingMode.HALF_UP).setScale(0, RoundingMode.UP));
 
         String fragStrip = mineCalculationDTO.getFragStrip();
-        BigDecimal enteredFragStrpValue = BigDecimal.ZERO;
+        BigDecimal enteredFragStrpValue;
         if (!StringUtils.isEmpty(fragStrip) && fragStrip.contains("/")) {
             BigDecimal dividend = new BigDecimal(fragStrip.substring(0, fragStrip.indexOf("/")));
             BigDecimal divisor = new BigDecimal(fragStrip.substring(fragStrip.indexOf("/") + 1));
-            enteredFragStrpValue = dividend.divide(divisor);
-            mineCalculationDTO.setCalFragStrip(enteredFragStrpValue.divide(MineCalculationConstants.SD_FRAG_STRIP, 0, RoundingMode.HALF_UP));
+            enteredFragStrpValue = dividend.divide(divisor, 4, RoundingMode.HALF_UP);
+        } else {
+            enteredFragStrpValue = new BigDecimal(fragStrip);
         }
+
+        mineCalculationDTO.setCalFragStrip(enteredFragStrpValue.divide(MineCalculationConstants.SD_FRAG_STRIP, 2, RoundingMode.HALF_UP).setScale(0, RoundingMode.UP));
 
         if (mineCalculationDTO.getCalAntiPerStrip().compareTo(mineCalculationDTO.getCalAntiTankStrip()) > 0) {
             if (mineCalculationDTO.getCalAntiPerStrip().compareTo(mineCalculationDTO.getCalFragStrip()) > 0) {
@@ -41,70 +67,104 @@ public class MineFdCalculationService {
         }
 
         // No of Mines
-        Integer antiPeerMine1 = mineCalculationDTO.getFrontage().multiply(mineCalculationDTO.getAntiPerStrip()).intValue();
-        int antiPeerMine = antiPeerMine1 + (antiPeerMine1.intValue() / 10);
-        mineCalculationDTO.setAntiPersMine(antiPeerMine);
+        BigDecimal antiPeerMine1 = mineCalculationDTO.getFrontage().multiply(mineCalculationDTO.getAntiPerStrip());
+        BigDecimal antiPeerMine = antiPeerMine1.add(antiPeerMine1.divide(new BigDecimal(10))).setScale(0, RoundingMode.UP);
+        mineCalculationDTO.setAntiPersMine(antiPeerMine.intValue());
 
-        Integer antitankMine1 = mineCalculationDTO.getFrontage().multiply(mineCalculationDTO.getAntiTankStrip()).intValue();
-        int antiTankMine = antitankMine1 + (antitankMine1.intValue() / 10);
-        mineCalculationDTO.setAntiTankMine(antiTankMine);
+        BigDecimal antitankMine1 = mineCalculationDTO.getFrontage().multiply(mineCalculationDTO.getAntiTankStrip());
+        BigDecimal antiTankMine = antitankMine1.add(antitankMine1.divide(new BigDecimal(10))).setScale(0, RoundingMode.UP);
+        mineCalculationDTO.setAntiTankMine(antiTankMine.intValue());
 
-        Integer fragMine1 = mineCalculationDTO.getFrontage().multiply(enteredFragStrpValue).intValue();
-        int fragMine = fragMine1 + (fragMine1.intValue() / 10);
-        mineCalculationDTO.setFragMine(fragMine);
+        BigDecimal fragMine1 = mineCalculationDTO.getFrontage().multiply(enteredFragStrpValue);
+        BigDecimal fragMine = fragMine1.add(fragMine1.divide(new BigDecimal(10))).setScale(0, RoundingMode.UP);
+        mineCalculationDTO.setFragMine(fragMine.intValue());
 
-        int totalMines = antiPeerMine + antiTankMine + fragMine;
+        int totalMines = antiPeerMine.intValue() + antiTankMine.intValue() + fragMine.intValue();
         mineCalculationDTO.setTotalMines(totalMines);
 
         //Mines on Strip calculation
         //nmm-14
-        BigDecimal nmm_ssmToTp1 = (mineCalculationDTO.getSsmToTp1().subtract(new BigDecimal(6)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setNmm_ssmToTp1(nmm_ssmToTp1);
+        if (mineCalculationDTO.getSsmToTp1().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal nmm_ssmToTp1 = (mineCalculationDTO.getSsmToTp1().subtract(new BigDecimal(6)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setNmm_ssmToTp1(nmm_ssmToTp1);
+        }
 
-        BigDecimal nmm_tp1ToTp2 = (mineCalculationDTO.getTp1ToTp2().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setNmm_tp1ToTp2(nmm_tp1ToTp2);
+        if (mineCalculationDTO.getTp1ToTp2().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal nmm_tp1ToTp2 = (mineCalculationDTO.getTp1ToTp2().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setNmm_tp1ToTp2(nmm_tp1ToTp2);
+        }
 
-        BigDecimal nmm_tp2ToTp3 = (mineCalculationDTO.getTp2ToTp3().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setNmm_tp2ToTp3(nmm_tp2ToTp3);
+        if (mineCalculationDTO.getTp2ToTp3().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal nmm_tp2ToTp3 = (mineCalculationDTO.getTp2ToTp3().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setNmm_tp2ToTp3(nmm_tp2ToTp3);
+        }
 
-        BigDecimal nmm_tp3ToTp4 = (mineCalculationDTO.getTp3ToTp4().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setNmm_tp3ToTp4(nmm_tp3ToTp4);
+        if (mineCalculationDTO.getTp3ToTp4().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal nmm_tp3ToTp4 = (mineCalculationDTO.getTp3ToTp4().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setNmm_tp3ToTp4(nmm_tp3ToTp4);
+        }
 
-        BigDecimal nmm_tp4ToESM = (mineCalculationDTO.getTp4ToESM().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setNmm_tp4ToESM(nmm_tp4ToESM);
+        if (mineCalculationDTO.getTp4ToESM().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal nmm_tp4ToESM = (mineCalculationDTO.getTp4ToESM().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiPerD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setNmm_tp4ToESM(nmm_tp4ToESM);
+        }
 
         //M-16
-        BigDecimal m_ssmToTp1 = (mineCalculationDTO.getSsmToTp1().subtract(new BigDecimal(12)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setM_ssmToTp1(m_ssmToTp1);
+        if (mineCalculationDTO.getSsmToTp1().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal m_ssmToTp1 = (mineCalculationDTO.getSsmToTp1().subtract(new BigDecimal(12)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setM_ssmToTp1(m_ssmToTp1);
+        }
 
-        BigDecimal m_tp1ToTp2 = (mineCalculationDTO.getTp1ToTp2().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setM_tp1ToTp2(m_tp1ToTp2);
+        if (mineCalculationDTO.getTp1ToTp2().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal m_tp1ToTp2 = (mineCalculationDTO.getTp1ToTp2().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setM_tp1ToTp2(m_tp1ToTp2);
+        }
 
-        BigDecimal m_tp2ToTp3 = (mineCalculationDTO.getTp2ToTp3().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setM_tp2ToTp3(m_tp2ToTp3);
+        if (mineCalculationDTO.getTp2ToTp3().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal m_tp2ToTp3 = (mineCalculationDTO.getTp2ToTp3().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setM_tp2ToTp3(m_tp2ToTp3);
+        }
 
-        BigDecimal m_tp3ToTp4 = (mineCalculationDTO.getTp3ToTp4().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setM_tp3ToTp4(m_tp3ToTp4);
+        if (mineCalculationDTO.getTp3ToTp4().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal m_tp3ToTp4 = (mineCalculationDTO.getTp3ToTp4().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setM_tp3ToTp4(m_tp3ToTp4);
+        }
 
-        BigDecimal m_tp4ToESM = (mineCalculationDTO.getTp4ToESM().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setM_tp4ToESM(m_tp4ToESM);
-
+        if (mineCalculationDTO.getTp4ToESM().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal m_tp4ToESM = (mineCalculationDTO.getTp4ToESM().subtract(new BigDecimal(15)).divide(new BigDecimal(12), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setM_tp4ToESM(m_tp4ToESM);
+        }
 
         //A/tank Mine MK-1
-        BigDecimal anti_Tank_mk_ssmToTp1 = (mineCalculationDTO.getSsmToTp1().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setAnti_Tank_mk_ssmToTp1(anti_Tank_mk_ssmToTp1);
+        if (mineCalculationDTO.getSsmToTp1().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal anti_Tank_mk_ssmToTp1 = (mineCalculationDTO.getSsmToTp1().subtract(new BigDecimal(9)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setAnti_Tank_mk_ssmToTp1(anti_Tank_mk_ssmToTp1);
+        }
 
-        BigDecimal anti_Tank_mk_tp1ToTp2 = (mineCalculationDTO.getTp1ToTp2().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setAnti_Tank_mk_tp1ToTp2(anti_Tank_mk_tp1ToTp2);
 
-        BigDecimal anti_Tank_mk_tp2ToTp3 = (mineCalculationDTO.getTp2ToTp3().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setAnti_Tank_mk_tp2ToTp3(anti_Tank_mk_tp2ToTp3);
+        if (mineCalculationDTO.getTp1ToTp2().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal anti_Tank_mk_tp1ToTp2 = (mineCalculationDTO.getTp1ToTp2().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setAnti_Tank_mk_tp1ToTp2(anti_Tank_mk_tp1ToTp2);
+        }
 
-        BigDecimal anti_Tank_mk_tp3ToTp4 = (mineCalculationDTO.getTp3ToTp4().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setAnti_Tank_mk_tp3ToTp4(anti_Tank_mk_tp3ToTp4);
 
-        BigDecimal anti_Tank_mk_tp4ToESM = (mineCalculationDTO.getTp4ToESM().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
-        mineCalculationDTO.setAnti_Tank_mk_tp4ToESM(anti_Tank_mk_tp4ToESM);
+        if (mineCalculationDTO.getTp2ToTp3().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal anti_Tank_mk_tp2ToTp3 = (mineCalculationDTO.getTp2ToTp3().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setAnti_Tank_mk_tp2ToTp3(anti_Tank_mk_tp2ToTp3);
+        }
+
+
+        if (mineCalculationDTO.getTp3ToTp4().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal anti_Tank_mk_tp3ToTp4 = (mineCalculationDTO.getTp3ToTp4().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setAnti_Tank_mk_tp3ToTp4(anti_Tank_mk_tp3ToTp4);
+        }
+
+
+        if (mineCalculationDTO.getTp4ToESM().compareTo(BigDecimal.ZERO) != 0) {
+            BigDecimal anti_Tank_mk_tp4ToESM = (mineCalculationDTO.getTp4ToESM().subtract(new BigDecimal(12)).divide(mineCalculationDTO.getAntiTankD(), 2, RoundingMode.UP)).add(new BigDecimal(1));
+            mineCalculationDTO.setAnti_Tank_mk_tp4ToESM(anti_Tank_mk_tp4ToESM);
+        }
+
 
         // Stores calculation
         //liap
