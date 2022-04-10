@@ -24,8 +24,8 @@ public class MineFDCalculationController {
         MineCalculationDTO mineCalculationDTO = new MineCalculationDTO();
         mineCalculationDTO.setFrontage(new BigDecimal(body.get("frontage")));
         mineCalculationDTO.setDept(new BigDecimal(body.get("dept")));
-        mineCalculationDTO.setAntiPerStrip(new BigDecimal(body.get("antiPerStrip")));
-        mineCalculationDTO.setAntiTankStrip(new BigDecimal(body.get("antiTankStrip")));
+        mineCalculationDTO.setAntiPerStripStr(body.get("antiPerStrip"));
+        mineCalculationDTO.setAntiTankStripStr(body.get("antiTankStrip"));
         mineCalculationDTO.setFragStrip(body.get("fragStrip"));
         mineCalculationDTO.setVsl(new BigDecimal(body.get("vsl")));
         mineCalculationDTO.setIsl(new BigDecimal(body.get("isl")));

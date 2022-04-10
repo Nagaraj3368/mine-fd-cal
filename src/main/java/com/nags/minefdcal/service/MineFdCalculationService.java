@@ -14,18 +14,44 @@ public class MineFdCalculationService {
 
     public MineCalculationDTO calculate(MineCalculationDTO mineCalculationDTO) {
 
+        String antiPerStrip = mineCalculationDTO.getAntiPerStripStr();
+        BigDecimal enteredAntiPerStripValue;
+        if (!StringUtils.isEmpty(antiPerStrip) && antiPerStrip.contains("/")) {
+            BigDecimal dividend = new BigDecimal(antiPerStrip.substring(0, antiPerStrip.indexOf("/")));
+            BigDecimal divisor = new BigDecimal(antiPerStrip.substring(antiPerStrip.indexOf("/") + 1));
+            enteredAntiPerStripValue = dividend.divide(divisor,2, RoundingMode.HALF_UP);
+        } else {
+            enteredAntiPerStripValue = new BigDecimal(antiPerStrip);
+        }
+        mineCalculationDTO.setAntiPerStrip(enteredAntiPerStripValue);
+
+        String antiTankStripStr = mineCalculationDTO.getAntiTankStripStr();
+        BigDecimal enteredAntiTankStripValue;
+        if (!StringUtils.isEmpty(antiTankStripStr) && antiTankStripStr.contains("/")) {
+            BigDecimal dividend = new BigDecimal(antiTankStripStr.substring(0, antiTankStripStr.indexOf("/")));
+            BigDecimal divisor = new BigDecimal(antiTankStripStr.substring(antiTankStripStr.indexOf("/") + 1));
+            enteredAntiTankStripValue = dividend.divide(divisor,2, RoundingMode.HALF_UP);
+        } else {
+            enteredAntiTankStripValue = new BigDecimal(antiTankStripStr);
+        }
+
+        mineCalculationDTO.setAntiTankStrip(enteredAntiTankStripValue);
+
         // No of strips
-        mineCalculationDTO.setCalAntiPerStrip(mineCalculationDTO.getAntiPerStrip().divide(MineCalculationConstants.SD_ANTI_PERS_STRIP));
+        mineCalculationDTO.setCalAntiPerStrip(mineCalculationDTO.getAntiPerStrip().divide(MineCalculationConstants.SD_ANTI_PERS_STRIP, 0, RoundingMode.HALF_UP));
         mineCalculationDTO.setCalAntiTankStrip(mineCalculationDTO.getAntiTankStrip().divide(MineCalculationConstants.SD_ANTI_TANK_STRIP, 0, RoundingMode.HALF_UP));
 
         String fragStrip = mineCalculationDTO.getFragStrip();
-        BigDecimal enteredFragStrpValue = BigDecimal.ZERO;
+        BigDecimal enteredFragStrpValue;
         if (!StringUtils.isEmpty(fragStrip) && fragStrip.contains("/")) {
             BigDecimal dividend = new BigDecimal(fragStrip.substring(0, fragStrip.indexOf("/")));
             BigDecimal divisor = new BigDecimal(fragStrip.substring(fragStrip.indexOf("/") + 1));
-            enteredFragStrpValue = dividend.divide(divisor);
-            mineCalculationDTO.setCalFragStrip(enteredFragStrpValue.divide(MineCalculationConstants.SD_FRAG_STRIP, 0, RoundingMode.HALF_UP));
+            enteredFragStrpValue = dividend.divide(divisor,2, RoundingMode.HALF_UP);
+        } else {
+            enteredFragStrpValue = new BigDecimal(fragStrip);
         }
+
+        mineCalculationDTO.setCalFragStrip(enteredFragStrpValue.divide(MineCalculationConstants.SD_FRAG_STRIP, 0, RoundingMode.HALF_UP));
 
         if (mineCalculationDTO.getCalAntiPerStrip().compareTo(mineCalculationDTO.getCalAntiTankStrip()) > 0) {
             if (mineCalculationDTO.getCalAntiPerStrip().compareTo(mineCalculationDTO.getCalFragStrip()) > 0) {
