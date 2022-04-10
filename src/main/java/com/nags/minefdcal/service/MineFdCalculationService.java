@@ -74,15 +74,20 @@ public class MineFdCalculationService {
         mineCalculationDTO.setPms(pms);
         mineCalculationDTO.setNoOfSHooks(pms);
 
+        // Nylon Rope cal
+        BigDecimal nylonRope1 = (mineCalculationDTO.getFrontage().add(mineCalculationDTO.getDept())).multiply(new BigDecimal(4));
+        BigDecimal nyloneRope = nylonRope1.add(nylonRope1.divide(new BigDecimal(10), 2, RoundingMode.UP)).setScale(0, RoundingMode.UP);
+        mineCalculationDTO.setNylonRopeInMtr(nyloneRope);
+
         //BindingWire
-        BigDecimal bindingWireInMtrs = pms.multiply(new BigDecimal(15)).divide(new BigDecimal(100));
+        BigDecimal bindingWireInMtrs = pms.multiply(new BigDecimal(15)).divide(new BigDecimal(100),2, RoundingMode.UP);
         mineCalculationDTO.setBindingWireInMtrs(bindingWireInMtrs);
         BigDecimal bindingWire = bindingWireInMtrs.divide(new BigDecimal(20), 2, RoundingMode.UP);
         mineCalculationDTO.setBindingWire(bindingWire);
 
         //Marked Tape
         BigDecimal markedTape1 = mineCalculationDTO.getFrontage().multiply(new BigDecimal(mineCalculationDTO.getNoOfStrips()));
-        BigDecimal markedTape2 = (markedTape1.add(markedTape1.divide(new BigDecimal(10)))).setScale(0, RoundingMode.UP);
+        BigDecimal markedTape2 = (markedTape1.add(markedTape1.divide(new BigDecimal(10),2, RoundingMode.UP))).setScale(0, RoundingMode.UP);
         mineCalculationDTO.setMarkedTapeInMtr(markedTape2);
         BigDecimal markedTape = markedTape2.divide(new BigDecimal(365), 0, RoundingMode.UP);
         mineCalculationDTO.setMarkedTape(markedTape);
@@ -163,6 +168,9 @@ public class MineFdCalculationService {
 
         BigDecimal totalMlp = new BigDecimal(totalMines).divide(new BigDecimal(700), 2, RoundingMode.UP).setScale(0, RoundingMode.UP);
         mineCalculationDTO.setTran_totalNoOfMLP(totalMlp);
+
+        BigDecimal totalMlp1 = new BigDecimal(totalMines).divide(new BigDecimal(500), 2, RoundingMode.UP).setScale(0, RoundingMode.UP);
+        mineCalculationDTO.setTran_totalNoOfMLP1(totalMlp1);
         return mineCalculationDTO;
     }
 
